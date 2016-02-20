@@ -1,0 +1,10 @@
+Los Ataques son las entidades que se crean cuando el usuario presiona la tecla de ataque normal o ataque potenciado.
+- Un Ataque es un prefab que contiene un script controlador que define cómo es ese ataque.
+- Los controladores de ataque se encargan de instanciar los componentes necesarios (principalmente colliders) y darles comportamiento
+para que simulen el efecto deseado. Por ahora existen dos controladores diferentes (que utilizan técnicas de "ataque" diferentes):
+	- Ataque proyectil: debe encontrarse en un GameObject con Rigidbody y Collider. Aplica una fuerza constante hacia el vector "right" del GameObject.
+		Básicamente, simula balas de las de toda la vida.
+	- Ataque melee: su GameObject tan sólo debe tener el componente Transform. Crea un collider cuadrado en la posición del GameObject con las medidas proporcionadas.
+		Puede simular cuchillazos, espadazos,...
+
+Así pues, la implementación de un ataque concreto no es más que un prefab con un componente controlador del tipo adecuado, configurado con los parámetros adecuados. 
