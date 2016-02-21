@@ -5,23 +5,24 @@ using System.Collections;
 [RequireComponent(typeof(Combatiente))]
 [RequireComponent(typeof(Rigidbody2D))]
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
 
     //Parámetros de configuración
-	public float jumpForce = 5f;        //  m/s
-	public float maxSpeedOnGround = 5f; //  m/s
+    public float jumpForce = 5f;        //  m/s
+    public float maxSpeedOnGround = 5f; //  m/s
     public float maxSpeedOnAir = 3f;    //  m/s
     public float maxSpeedDucked = 3f;   //  m/s
     public float acceleration = 1f;     //  +m/s
     public KeyCode normalAttackKey;         //Key to launch simple attack
     public KeyCode specialAttackKey;        //Key to launch powered attack
-    //public Arma equipedWeaponPrefab;
+                                            //public Arma equipedWeaponPrefab;
 
 
     //Estado de collisiones con el entorno
-	private bool onGroundCollision = false;
+    private bool onGroundCollision = false;
     private bool onTopCollision = false;
-	private bool onRightCollision = false;
+    private bool onRightCollision = false;
     private bool onLeftCollision = false;
 
     //Estado del input del usuario
@@ -30,12 +31,15 @@ public class PlayerController : MonoBehaviour {
     private bool pressingRight = false;
     private bool pressingLeft = false;
 
-	private Rigidbody2D rigidb;
+    private Rigidbody2D rigidb;
     private Combatiente combatController;
     //private Arma equipedWeaponInstance;
 
-    public enum MovementState { Stand, Walking, Duck, DuckNmoving, AimUpVertical, AimUpDiagonal, AirStand, AirMove, AirAimDownVertical, AirAimDownDiagonal, 
-                            AirAimUpVertical, AirAimUpDiagonal};
+    public enum MovementState
+    {
+        Stand, Walking, Duck, DuckNmoving, AimUpVertical, AimUpDiagonal, AirStand, AirMove, AirAimDownVertical, AirAimDownDiagonal,
+        AirAimUpVertical, AirAimUpDiagonal
+    };
 
     private MovementState movementState;
     private Vector2 actualSpeed;
@@ -46,8 +50,9 @@ public class PlayerController : MonoBehaviour {
     //======================================================================================================================================================================
     // FUNCIONES HEREDADAS
     //======================================================================================================================================================================
-	void Start () {
-		rigidb = GetComponent<Rigidbody2D> ();
+    void Start()
+    {
+        rigidb = GetComponent<Rigidbody2D>();
         combatController = GetComponent<Combatiente>();
 
         //Estado inicial
@@ -55,26 +60,28 @@ public class PlayerController : MonoBehaviour {
 
         //equipedWeaponInstance = Instantiate(equipedWeaponPrefab, transform.position, transform.rotation) as Arma;
         //equipedWeaponInstance.transform.parent = transform;
-	}
-    
-	
-	void Update () {
-        actualSpeed = rigidb.velocity;
-         
-	}
+    }
 
-	void FixedUpdate(){
+
+    void Update()
+    {
+        actualSpeed = rigidb.velocity;
+
+    }
+
+    void FixedUpdate()
+    {
 
         capturarInputMovimiento();
         capturarInputSalto();
         orientarSprite();
         movementState = calcularEstado();
-        capturarInputAtaque(); 
+        capturarInputAtaque();
 
         //Aplicar velocidad
         rigidb.velocity += new Vector2(calcularIncrementoVelocidad(), 0);
 
-	}
+    }
 
 
     //======================================================================================================================================================================
@@ -241,7 +248,7 @@ public class PlayerController : MonoBehaviour {
 
         if (!onGroundCollision) max_speed = maxSpeedOnAir;
         else if (!pressingDown) max_speed = maxSpeedOnGround;
-            else max_speed = maxSpeedDucked;
+        else max_speed = maxSpeedDucked;
 
         float actual_speed = rigidb.velocity.x;
 
@@ -262,16 +269,20 @@ public class PlayerController : MonoBehaviour {
     {
         switch (collisionPlace)
         {
-            case CheckerController.Place.Bottom: onGroundCollision = collisionIn;
+            case CheckerController.Place.Bottom:
+                onGroundCollision = collisionIn;
                 break;
 
-            case CheckerController.Place.Top: onTopCollision = collisionIn;
+            case CheckerController.Place.Top:
+                onTopCollision = collisionIn;
                 break;
 
-            case CheckerController.Place.Right: onRightCollision = collisionIn;
+            case CheckerController.Place.Right:
+                onRightCollision = collisionIn;
                 break;
 
-            case CheckerController.Place.Left: onLeftCollision = collisionIn;
+            case CheckerController.Place.Left:
+                onLeftCollision = collisionIn;
                 break;
         }
     }
@@ -282,13 +293,13 @@ public class PlayerController : MonoBehaviour {
 
     public bool[] getCollisions()
     {
-        bool [] v_collisions = {onGroundCollision, onTopCollision, onRightCollision, onLeftCollision};
+        bool[] v_collisions = { onGroundCollision, onTopCollision, onRightCollision, onLeftCollision };
         return v_collisions;
     }
 
     public bool[] getKeysPressed()
     {
-        bool [] v_keys = {pressingDown, pressingUp, pressingRight, pressingLeft};
+        bool[] v_keys = { pressingDown, pressingUp, pressingRight, pressingLeft };
         return v_keys;
     }
 
